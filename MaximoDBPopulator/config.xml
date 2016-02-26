@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <connstring>Data Source=10.50.100.51;Initial Catalog=FS76DEV;User Id=MAXIMO;password=MAXIMO;</connstring>
+
+
+  <!-- 1000 by default -->
+  <batchsize>2000</batchsize>
+
+  <populations>
+    <!-- May have multiple <population>, one for each table -->
+    <population>
+      <tablename>workorder</tablename>
+
+      <!-- The number of entries to be populated -->
+      <numberofentries>5000</numberofentries>
+
+      <!-- The query used to find the base row of population. All valuoes of the row are used excecpt for customizations and exclusions.-->
+      <basequery>select TOP(1) * from workorder where wonum = '1608'</basequery>
+
+      <!-- The starting index for customizations. 1 by default.-->
+      <startindex>1</startindex>
+
+      <!-- Customizations overides the original value of the base row. -->
+      <!-- {now} is replaced by a string representing the current time on the format "yyMMddHHmmssfff" -->
+      <!-- {index} is replaced by the current index of population. Incremented by one for every row. Can be set by <startindex>.-->
+      <customizations>
+        <customization columnname="description" value="Dummy Populated {index}"/>
+        <customization columnname="wonum" value="-{now}"/>
+        <customization columnname="workorderid" value="-{now}"/>
+      </customizations>
+
+      <!-- Exclusions are columns that are not considered from the base row -->
+      <exclusions>
+        <exclusion columnname="rowstamp"/>
+      </exclusions>
+    </population>
+  </populations>
+</configuration>
